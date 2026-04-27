@@ -12,8 +12,7 @@ export default function HeaderInputs({
   setIdCRM,
   statusOptions,
   updateOrderData,
-  setCredito,
-  credito,
+
   idCORP,
   setIdCORP
 }: any) {
