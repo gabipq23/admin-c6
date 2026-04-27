@@ -1,7 +1,5 @@
-
-import { OrderBandaLarga } from "@/interfaces/orders";
-import { formatBRL } from "@/utils/formatBRL";
-import { formatCEP } from "@/utils/formatCEP";
+import { OrderC6Bank } from "@/interfaces/orders";
+import { formatCNPJ } from "@/utils/formatCNPJ";
 import { formatCPF } from "@/utils/formatCPF";
 import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import pdfMake from "pdfmake/build/pdfmake";
@@ -17,62 +15,50 @@ const getBase64FromImageUrl = (url: string): Promise<string> => {
       const canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
-
       const ctx = canvas.getContext("2d");
       if (!ctx) return reject("Erro ao criar contexto do canvas");
-
       ctx.drawImage(img, 0, 0);
-      const dataURL = canvas.toDataURL("image/png");
-      resolve(dataURL);
+      resolve(canvas.toDataURL("image/png"));
     };
     img.onerror = () => reject("Erro ao carregar imagem");
     img.src = url;
   });
 };
 
-export const generatePDF = async (order: OrderBandaLarga | undefined) => {
+const boolLabel = (value: boolean | null | undefined): string =>
+  value === true ? "Sim" : value === null || value === undefined ? "-" : "Não";
+
+const dateLabel = (value: string | null | undefined): string => {
+  if (!value) return "-";
+
+  // Se já vier no formato brasileiro (DD/MM/YYYY...), exibe direto
+  if (/^\d{2}\/\d{2}\/\d{4}/.test(value)) {
+    return value;
+  }
+
+  // Tenta parsear ISO ou outros formatos
+  const normalized = value.replace(" ", "T");
+  const date = new Date(normalized);
+  if (!isNaN(date.getTime())) {
+    return date.toLocaleString("pt-BR");
+  }
+
+  return value;
+};
+const currencyLabel = (value: number | null | undefined): string =>
+  value == null
+    ? "-"
+    : value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
+export const generatePDF = async (order: OrderC6Bank | undefined) => {
   if (!order) return;
 
-  const addressComplement = order.address_complement;
-  const buildingOrHouse =
-    addressComplement?.building_or_house || order.building_or_house;
-  const complementoEndereco =
-    buildingOrHouse === "house"
-      ? addressComplement?.home_complement || "-"
-      : buildingOrHouse === "building"
-        ? `${addressComplement?.unit_type || "-"} ${addressComplement?.unit_number || "-"
-          }`.trim()
-        : "-";
-  const lote = addressComplement?.lot || order.address_lot || "-";
-  const quadra =
-    addressComplement?.square || addressComplement?.block || order.address_block || "-";
-  const andar = addressComplement?.floor || order.address_floor || "-";
-  const tipoImovel =
-    buildingOrHouse === "building"
-      ? "Edifício"
-      : buildingOrHouse === "house"
-        ? "Casa"
-        : "-";
-  const pontoReferencia =
-    addressComplement?.reference_point || order.address_reference_point || "-";
-
-  const paymentMethodLabel =
-    order.payment_method === "automatic_debit"
-      ? "Debito Automatico"
-      : order.payment_method === "credit_card"
-        ? "Cartao de Credito"
-        : order.payment_method === "boleto"
-          ? "Boleto"
-          : order.payment_method === "pix"
-            ? "PIX"
-            : order.payment_method || "-";
-
-  const logo = await getBase64FromImageUrl("/assets/tim.svg");
+  const logo = await getBase64FromImageUrl("/assets/c6-logo.png");
 
   const docDefinition = {
     pageMargins: [20, 40, 20, 40],
     content: [
-      // Cabeçalho com logos
+      // Cabeçalho
       {
         columns: [
           {
@@ -82,71 +68,16 @@ export const generatePDF = async (order: OrderBandaLarga | undefined) => {
             margin: [0, 10, 0, 0],
           },
           { text: "", width: "*" },
-
         ],
         margin: [0, 5, 0, 10] as [number, number, number, number],
       },
 
-      // Título do pedido
+      // Título
       {
-        columns: [
-          {
-            text: `Pedido Nº${order.order_number || order.id}`,
-            style: "title",
-          },
-        ],
+        text: `Pedido Nº${order.order_number || order.id}`,
+        style: "title",
       },
 
-      // Plano Contratado
-      { text: "Plano Contratado", style: "sectionHeader" },
-      {
-        table: {
-          headerRows: 1,
-          widths: ["*", 100],
-          body: [
-            [
-              { text: "Plano", style: "tableHeader" },
-
-              { text: "Valor Mensal", style: "tableHeader" },
-            ],
-            [
-              { text: order.plan?.name || "-", style: "tableBody" },
-
-              {
-                text: formatBRL(order.price_summary?.plan_price ?? order.plan?.value ?? 0),
-                style: "tableBody",
-              },
-            ],
-          ],
-        },
-        layout: "lightHorizontalLines",
-        style: "productTable",
-      },
-
-      {
-        type: "circle",
-        ul: [
-          `Possui Disponibilidade?  ${order.availability
-            ? "Sim"
-            : order.availability === null
-              ? "-"
-              : "Não"
-          }`,
-        ],
-        style: "content",
-      },
-      {
-        type: "circle",
-        ul: [
-          `Possui Disponibilidade PAP?  ${order.availability_pap
-            ? "Sim"
-            : order.availability_pap === null
-              ? "-"
-              : "Não"
-          }`,
-        ],
-        style: "content",
-      },
       // Informações Pessoais
       { text: "Informações Pessoais", style: "sectionHeader" },
       {
@@ -156,95 +87,76 @@ export const generatePDF = async (order: OrderBandaLarga | undefined) => {
           `CPF: ${formatCPF(order.cpf) || "-"}`,
           `Email: ${order.email || "-"}`,
           `Telefone: ${formatPhoneNumber(order.phone) || "-"}`,
-          `Telefone Adicional: ${formatPhoneNumber(order.additional_phone || "") || "-"}`,
-
-          `Data de Nascimento: ${order.birth_date || "-"}`,
-          `Nome da Mãe: ${order.mother_full_name || "-"}`,
         ],
         style: "content",
       },
 
-      // Endereço
-      { text: "Informações de Endereço", style: "sectionHeader" },
+      // Informações Empresariais
+      { text: "Informações Empresariais", style: "sectionHeader" },
       {
         type: "circle",
         ul: [
-          `CEP: ${formatCEP(order.zip_code || "") || "-"}`,
-          `Endereço: ${order.address || "-"}`,
-          `Número: ${order.address_number || "-"}`,
-          `Complemento: ${complementoEndereco}`,
-          `Lote: ${lote}`,
-          `Quadra: ${quadra}`,
-          `Andar: ${andar}`,
-          `Tipo: ${tipoImovel}`,
-          `Ponto de referência: ${pontoReferencia}`,
-          `Bairro: ${order.district || "-"}`,
-          `Cidade: ${order.city || "-"}`,
-          `UF: ${order.state || "-"}`,
+          `CNPJ: ${formatCNPJ(order.cnpj || "") || "-"}`,
+          `Razão Social: ${order.company_legal_name || "-"}`,
+          `Sócio: ${boolLabel(order.is_socio)}`,
+          `MEI: ${boolLabel(order.is_mei)}`,
         ],
         style: "content",
       },
 
-      // Preferências de Instalação
-      { text: "Preferências de Instalação", style: "sectionHeader" },
+      // Produtos de Interesse
+      { text: "Produtos de Interesse", style: "sectionHeader" },
       {
         type: "circle",
         ul: [
-          `Data Preferida 1: ${order.installation_preferred_date_one}`,
-          `Período Preferido 1: ${order.installation_preferred_period_one || "-"
-          }`,
-          `Data Preferida 2: ${order.installation_preferred_date_two}`,
-          `Período Preferido 2: ${order.installation_preferred_period_two || "-"
-          }`,
-          `Dia de Vencimento: ${order.due_day ?? "-"}`,
+          `Abertura de Conta: ${boolLabel(order.product_account_opening)}`,
+          `Maquininha: ${boolLabel(order.product_card_machine)}`,
+          `Cartão de Crédito: ${boolLabel(order.product_credit_card)}`,
+          `Empréstimo: ${boolLabel(order.product_loan)}`,
+          `Valor do Empréstimo: ${currencyLabel(order.loan_amount)}`,
         ],
         style: "content",
       },
 
-      // Informacoes de Pagamento
-      { text: "Informações de Pagamento", style: "sectionHeader" },
+      // App C6 Bank
+      { text: "App C6 Bank", style: "sectionHeader" },
       {
         type: "circle",
         ul: [
-          `Metodo de Pagamento: ${paymentMethodLabel}`,
-          `Nome do Banco: ${order.bank_name || "-"}`,
-          `Agencia: ${order.bank_branch || "-"}`,
-          `Numero da Conta: ${order.bank_account_number || "-"}`,
+          `Click App: ${boolLabel(order.app_click)}`,
+          `Data/Hora Click: ${dateLabel(order.app_click_at)}`,
+          `Cadastro App: ${boolLabel(order.app_register)}`,
+          `Data/Hora Cadastro: ${dateLabel(order.app_register_at)}`,
         ],
         style: "content",
       },
 
-      // Resumo Financeiro
-      { text: "Resumo Financeiro", style: "sectionHeader" },
+      // Consultor
+      { text: "Informações de Atendimento", style: "sectionHeader" },
       {
-        columns: [
-          { text: "Valor Mensal do Plano", style: "content" },
-          {
-            text: formatBRL(order.price_summary?.plan_price ?? order.plan?.value ?? 0),
-            style: "content",
-            alignment: "right",
-          },
+        type: "circle",
+        ul: [
+          `Consultor: ${order.responsible_consultant || "-"}`,
+          `Equipe: ${order.team || "-"}`,
+          `Observação: ${order.consultant_observation || "-"}`,
+          `Notas: ${order.consultant_notes || "-"}`,
         ],
+        style: "content",
       },
 
-
+      // Dados do Pedido
+      { text: "Dados do Pedido", style: "sectionHeader" },
+      {
+        type: "circle",
+        ul: [
+          `Status: ${order.status || "-"}`,
+          `Tipo: ${order.order_type || "-"}`,
+          `Criado em: ${dateLabel(order.created_at)}`,
+        ],
+        style: "content",
+      },
     ],
     styles: {
-      tableHeader: {
-        bold: true,
-        fontSize: 10,
-        color: "#222",
-        fillColor: "#f3f3f3",
-        margin: [0, 4, 0, 4],
-      },
-      tableBody: {
-        fontSize: 9,
-        color: "#444",
-        margin: [0, 2, 0, 2],
-      },
-      productTable: {
-        margin: [0, 5, 0, 15],
-      },
       title: {
         fontSize: 18,
         bold: true,
@@ -264,16 +176,10 @@ export const generatePDF = async (order: OrderBandaLarga | undefined) => {
         marginBottom: 3,
         lineHeight: 1.3,
       },
-      footer: {
-        alignment: "center" as const,
-        italics: true,
-        fontSize: 12,
-        color: "#333",
-      },
     },
   };
 
   pdfMake
     .createPdf(docDefinition as any)
-    .download(`pedido-banda-larga-pf-${order.order_number || order.id}.pdf`);
+    .download(`pedido-c6bank-${order.order_number || order.id}.pdf`);
 };

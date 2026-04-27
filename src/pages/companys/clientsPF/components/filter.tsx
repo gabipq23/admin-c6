@@ -178,7 +178,6 @@ export function FilterClients({
                 style={{ width: "24px", height: "28px" }}
                 onClick={() =>
                   handleExportXLSX({
-                    // companies,
                     selectedRowKeys,
                     visibleColumns,
                     tableColumns,
