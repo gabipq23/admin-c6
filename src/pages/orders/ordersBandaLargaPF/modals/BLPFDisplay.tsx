@@ -115,6 +115,111 @@ export function OrderDisplay({
         </div>
       </div> */}
 
+      {/* Produtos de Interesse & App C6 */}
+      <div className="flex gap-4 flex-col bg-neutral-100 mb-3 rounded-[4px] p-3 w-full">
+        <div className="flex items-center">
+          <h2 className="text-[14px] text-[#666666] font-medium">
+            Produtos de Interesse</h2>
+        </div>
+        <div className="bg-white rounded-md p-2 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <DisplayGenerator
+              title="Abertura de Conta:"
+              value={
+                localData.product_account_opening
+                  ? "Sim"
+                  : localData.product_account_opening === undefined || localData.product_account_opening === null
+                    ? "-"
+                    : "Não"
+              }
+            />
+            <DisplayGenerator
+              title="Maquininha:"
+              value={
+                localData.product_card_machine
+                  ? "Sim"
+                  : localData.product_card_machine === undefined || localData.product_card_machine === null
+                    ? "-"
+                    : "Não"
+              }
+            />
+            <DisplayGenerator
+              title="Cartão de Crédito:"
+              value={
+                localData.product_credit_card
+                  ? "Sim"
+                  : localData.product_credit_card === undefined || localData.product_credit_card === null
+                    ? "-"
+                    : "Não"
+              }
+            />
+            <DisplayGenerator
+              title="Empréstimo:"
+              value={
+                localData.product_loan
+                  ? "Sim"
+                  : localData.product_loan === undefined || localData.product_loan === null
+                    ? "-"
+                    : "Não"
+              }
+            />
+            <DisplayGenerator
+              title="Valor do Empréstimo:"
+              value={
+                localData.loan_amount == null
+                  ? "-"
+                  : localData.loan_amount.toLocaleString("pt-BR", {
+                    style: "currency",
+                    currency: "BRL",
+                  })
+              }
+            />
+          </div>
+        </div>
+        <div className="bg-white rounded-md p-2">
+          <div className="text-xs font-medium text-gray-500  mb-2">
+            App C6 Bank
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <DisplayGenerator
+              title="Click App:"
+              value={
+                localData.app_click
+                  ? "Sim"
+                  : localData.app_click === undefined || localData.app_click === null
+                    ? "-"
+                    : "Não"
+              }
+            />
+            <DisplayGenerator
+              title="Data/Hora Click:"
+              value={
+                localData.app_click_at
+                  ? new Date(localData.app_click_at).toLocaleString("pt-BR")
+                  : "-"
+              }
+            />
+            <DisplayGenerator
+              title="Cadastro App:"
+              value={
+                localData.app_register
+                  ? "Sim"
+                  : localData.app_register === undefined || localData.app_register === null
+                    ? "-"
+                    : "Não"
+              }
+            />
+            <DisplayGenerator
+              title="Data/Hora Cadastro:"
+              value={
+                localData.app_register_at
+                  ? new Date(localData.app_register_at).toLocaleString("pt-BR")
+                  : "-"
+              }
+            />
+          </div></div>
+      </div>
+
       {/* Informações do Cliente */}
       <div className="flex flex-col bg-neutral-100 mb-3 rounded-[4px] p-3 w-full">
         <div className="flex items-center mb-3">

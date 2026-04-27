@@ -1,6 +1,6 @@
 enum LocalStorageKeys {
   // accessToken = "tim@accessToken",
-  user = "tim@user",
+  user = "c6@user",
 }
 
 type Keys = LocalStorageKeys;

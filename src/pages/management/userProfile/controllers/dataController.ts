@@ -7,7 +7,7 @@ import { toast } from "sonner";
 export function useUserProfileController() {
   const usersService = new UsersService();
   const queryClient = useQueryClient();
-  const user = JSON.parse(localStorage.getItem("tim@user") || "null");
+  const user = JSON.parse(localStorage.getItem("c6@user") || "null");
   const userID = user?.id;
 
   const { data: userProfileQuery, isFetching } = useQuery<IUserProfileResponse>(

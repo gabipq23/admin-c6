@@ -8,7 +8,7 @@ export default function UserProfile() {
   const queryClient = new QueryClient();
   const { userProfileQuery, updateUserProfile } = useUserProfileController();
   const [form] = Form.useForm();
-  const user = JSON.parse(localStorage.getItem("tim@user") || "null");
+  const user = JSON.parse(localStorage.getItem("c6@user") || "null");
   const userID = user?.id;
   const initials = userProfileQuery?.dados?.nome
     ? userProfileQuery.dados.nome

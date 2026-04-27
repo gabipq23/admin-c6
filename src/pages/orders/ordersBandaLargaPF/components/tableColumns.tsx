@@ -1,10 +1,13 @@
 import { Thermometer } from "@/components/chat/common/thermometer";
 import { formatCPF } from "@/utils/formatCPF";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
-import { TableColumnsType, Tooltip } from "antd";
+import { Button, TableColumnsType, Tooltip } from "antd";
 import { Dispatch, SetStateAction } from "react";
 import {
+    AlertCircle,
     CheckCircle2,
+    MapIcon,
+    MapPinned,
     Mars,
     Monitor,
     Smartphone,
@@ -107,7 +110,6 @@ export const useAllTableColumns = ({
             render: (order_number, record) =>
                 order_number ? order_number : record.id || "-",
         },
-
         {
             title: "Abertura",
             dataIndex: "created_at",
@@ -199,7 +201,7 @@ export const useAllTableColumns = ({
         {
             title: "CNPJ",
             dataIndex: "cnpj",
-            width: 120,
+            width: 150,
             render: (cnpj) => (cnpj ? formatCNPJ(cnpj) : "-"),
             filters: [
                 {
@@ -229,8 +231,8 @@ export const useAllTableColumns = ({
         {
             title: "Razão Social",
             dataIndex: "company_legal_name",
-            width: 100,
-
+            width: 120,
+            render: (company_legal_name) => company_legal_name || "-",
         },
         {
             title: "CPF",
@@ -320,7 +322,6 @@ export const useAllTableColumns = ({
             },
             width: 240,
         },
-
         {
             title: "Gênero",
             dataIndex: "rfb_gender",
@@ -381,7 +382,6 @@ export const useAllTableColumns = ({
                 );
             },
         },
-
         {
             title: "Nome da Mãe",
             dataIndex: "mother_full_name",
@@ -441,6 +441,83 @@ export const useAllTableColumns = ({
                 );
             },
             width: 220,
+        },
+        {
+            title: "Abertura de Conta",
+            dataIndex: "product_account_opening",
+            width: 140,
+            render: (value) =>
+                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
+        },
+        {
+            title: "Maquininha",
+            dataIndex: "product_card_machine",
+            width: 120,
+            render: (value) =>
+                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
+        },
+        {
+            title: "Cartão de Crédito",
+            dataIndex: "product_credit_card",
+            width: 140,
+            render: (value) =>
+                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
+        },
+        {
+            title: "Empréstimo",
+            dataIndex: "product_loan",
+            width: 120,
+            render: (value) =>
+                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
+        },
+        {
+            title: "R$ Empréstimo",
+            dataIndex: "loan_amount",
+            width: 120,
+            render: (value) =>
+                value == null
+                    ? "-"
+                    : value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }),
+        },
+        {
+            title: "Click App",
+            dataIndex: "app_click",
+            width: 120,
+            render: (value) =>
+                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
+        },
+        {
+            title: "Data/Hora Click",
+            dataIndex: "app_click_at",
+            width: 130,
+            render: (value) =>
+                value
+                    ? new Date(value).toLocaleString("pt-BR")
+                    : "-",
+        },
+        {
+            title: "Cadastro App",
+            dataIndex: "app_register",
+            width: 120,
+            render: (value) =>
+                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
+        },
+        {
+            title: "Data/Hora Cadastro",
+            dataIndex: "app_register_at",
+            width: 150,
+            render: (value) =>
+                value
+                    ? new Date(value).toLocaleString("pt-BR")
+                    : "-",
+        },
+
+        {
+            title: "MEI",
+            dataIndex: "is_mei",
+            width: 70,
+            render: (is_mei) =>
+                is_mei ? "Sim" : is_mei === undefined || is_mei === null ? "-" : "Não",
         },
 
         {
@@ -642,84 +719,8 @@ export const useAllTableColumns = ({
         //         );
         //     },
         // },
-        // {
-        //     title: "Telefone Adicional",
-        //     dataIndex: "additional_phone",
-        //     width: 180,
-        //     render: (_, record) => {
-        //         if (!record.additional_phone) return "-";
 
-        //         const isValid = Number(record.additional_phone_valid);
 
-        //         return (
-        //             <span className="flex items-center gap-1">
-        //                 {formatPhoneNumber(record.additional_phone)}
-        //                 {isValid === 1 ? (
-        //                     <Tooltip
-        //                         title="Válido na ANATEL"
-        //                         placement="top"
-        //                         styles={{ body: { fontSize: "12px" } }}
-        //                     >
-        //                         <CheckCircle2 className="h-4 w-4 text-green-500" />
-        //                     </Tooltip>
-        //                 ) : isValid === 0 ? (
-        //                     <Tooltip
-        //                         title="Inválido na ANATEL"
-        //                         placement="top"
-        //                         styles={{ body: { fontSize: "12px" } }}
-        //                     >
-        //                         <XCircle className="h-4 w-4 text-red-500" />
-        //                     </Tooltip>
-        //                 ) : null}
-        //             </span>
-        //         );
-        //     },
-        //     filters: [
-        //         {
-        //             text: "Preenchido",
-        //             value: "preenchido",
-        //         },
-        //         {
-        //             text: "Vazio",
-        //             value: "vazio",
-        //         },
-        //     ],
-
-        //     onFilter: (value, record) => {
-        //         if (value === "preenchido") {
-        //             return (
-        //                 record.phone !== null &&
-        //                 record.phone !== undefined &&
-        //                 record.phone !== ""
-        //             );
-        //         }
-        //         if (value === "vazio") {
-        //             return (
-        //                 record.phone === null ||
-        //                 record.phone === undefined ||
-        //                 record.phone === ""
-        //             );
-        //         }
-        //         return true;
-        //     },
-        // },
-        // {
-        //   title: "Status",
-        //   dataIndex: ["whatsapp", "recado"],
-        //   ellipsis: {
-        //     showTitle: false,
-        //   },
-        //   render: (recado) => (
-        //     <Tooltip
-        //       placement="topLeft"
-        //       title={recado}
-        //       styles={{ body: { fontSize: "12px" } }}
-        //     >
-        //       {recado || "-"}
-        //     </Tooltip>
-        //   ),
-        //   width: 140,
-        // },
         {
             title: "Email",
             dataIndex: "email",
@@ -757,217 +758,217 @@ export const useAllTableColumns = ({
         },
 
 
-        // {
-        //     title: "CEP",
-        //     dataIndex: "zip_code",
-        //     width: 130,
-        //     render: (_, record) => {
-        //         if (!record.zip_code) return "-";
+        {
+            title: "CEP",
+            dataIndex: "zip_code",
+            width: 130,
+            render: (_, record) => {
+                if (!record.zip_code) return "-";
 
-        //         const isValidCep =
-        //             record.address && record.district && record.city && record.state;
-        //         const isCepUnico = record.single_zip_code;
+                const isValidCep =
+                    record.address && record.district && record.city && record.state;
+                const isCepUnico = record.single_zip_code;
 
-        //         return (
-        //             <span className="flex items-center gap-1">
-        //                 {record.zip_code}
-        //                 {isCepUnico ? (
-        //                     <Tooltip
-        //                         title="CEP único para localidade. Dados inseridos manualmente pelo usuário. Sujeito a erro de digitação."
-        //                         placement="top"
-        //                         styles={{ body: { fontSize: "12px" } }}
-        //                     >
-        //                         <AlertCircle className="h-4 w-4 text-yellow-500" />
-        //                     </Tooltip>
-        //                 ) : isValidCep ? (
-        //                     <Tooltip
-        //                         title="CEP válido com endereço completo"
-        //                         placement="top"
-        //                         styles={{ body: { fontSize: "12px" } }}
-        //                     >
-        //                         <CheckCircle2 className="h-4 w-4 text-green-500" />
-        //                     </Tooltip>
-        //                 ) : (
-        //                     <Tooltip
-        //                         title="CEP inválido ou incompleto"
-        //                         placement="top"
-        //                         styles={{ body: { fontSize: "12px" } }}
-        //                     >
-        //                         <XCircle className="h-4 w-4 text-red-500" />
-        //                     </Tooltip>
-        //                 )}
-        //             </span>
-        //         );
-        //     },
-        // },
-        // {
-        //     title: "Endereço",
-        //     dataIndex: "address",
-        //     ellipsis: {
-        //         showTitle: false,
-        //     },
-        //     render: (address) => (
-        //         <Tooltip
-        //             placement="topLeft"
-        //             title={address}
-        //             styles={{ body: { fontSize: "12px" } }}
-        //         >
-        //             {address || "-"}
-        //         </Tooltip>
-        //     ),
-        //     width: 140,
-        // },
-        // {
-        //     title: "Número",
-        //     dataIndex: "address_number",
-        //     width: 80,
-        //     render: (addressnumber) => (addressnumber ? addressnumber : "-"),
-        // },
-        // {
-        //     title: "Bairro",
-        //     dataIndex: "district",
-        //     width: 120,
-        //     ellipsis: {
-        //         showTitle: false,
-        //     },
-        //     render: (district) => (
-        //         <Tooltip
-        //             placement="topLeft"
-        //             title={district}
-        //             styles={{ body: { fontSize: "12px" } }}
-        //         >
-        //             {district || "-"}
-        //         </Tooltip>
-        //     ),
-        // },
+                return (
+                    <span className="flex items-center gap-1">
+                        {record.zip_code}
+                        {isCepUnico ? (
+                            <Tooltip
+                                title="CEP único para localidade. Dados inseridos manualmente pelo usuário. Sujeito a erro de digitação."
+                                placement="top"
+                                styles={{ body: { fontSize: "12px" } }}
+                            >
+                                <AlertCircle className="h-4 w-4 text-yellow-500" />
+                            </Tooltip>
+                        ) : isValidCep ? (
+                            <Tooltip
+                                title="CEP válido com endereço completo"
+                                placement="top"
+                                styles={{ body: { fontSize: "12px" } }}
+                            >
+                                <CheckCircle2 className="h-4 w-4 text-green-500" />
+                            </Tooltip>
+                        ) : (
+                            <Tooltip
+                                title="CEP inválido ou incompleto"
+                                placement="top"
+                                styles={{ body: { fontSize: "12px" } }}
+                            >
+                                <XCircle className="h-4 w-4 text-red-500" />
+                            </Tooltip>
+                        )}
+                    </span>
+                );
+            },
+        },
+        {
+            title: "Endereço",
+            dataIndex: "address",
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (address) => (
+                <Tooltip
+                    placement="topLeft"
+                    title={address}
+                    styles={{ body: { fontSize: "12px" } }}
+                >
+                    {address || "-"}
+                </Tooltip>
+            ),
+            width: 140,
+        },
+        {
+            title: "Número",
+            dataIndex: "address_number",
+            width: 80,
+            render: (addressnumber) => (addressnumber ? addressnumber : "-"),
+        },
+        {
+            title: "Bairro",
+            dataIndex: "district",
+            width: 120,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (district) => (
+                <Tooltip
+                    placement="topLeft"
+                    title={district}
+                    styles={{ body: { fontSize: "12px" } }}
+                >
+                    {district || "-"}
+                </Tooltip>
+            ),
+        },
 
-        // {
-        //     title: "Cidade",
-        //     dataIndex: "city",
-        //     width: 120,
-        //     ellipsis: {
-        //         showTitle: false,
-        //     },
-        //     render: (city) => (
-        //         <Tooltip
-        //             placement="topLeft"
-        //             title={city}
-        //             styles={{ body: { fontSize: "12px" } }}
-        //         >
-        //             {city || "-"}
-        //         </Tooltip>
-        //     ),
-        // },
-        // {
-        //     title: "UF",
-        //     dataIndex: "state",
-        //     width: 60,
-        // },
-        // {
-        //     title: "Coordenadas",
-        //     dataIndex: "geolocation",
-        //     width: 180,
-        //     render: (geolocation) => {
-        //         if (
-        //             !geolocation ||
-        //             !geolocation.latitude ||
-        //             !geolocation.longitude
-        //         ) {
-        //             return "-";
-        //         }
-        //         const coordenadas = `Lat: ${geolocation.latitude}\nLong: ${geolocation.longitude}`;
-        //         return (
-        //             <Tooltip
-        //                 placement="topLeft"
-        //                 title={coordenadas}
-        //                 styles={{ body: { fontSize: "12px" } }}
-        //             >
-        //                 <div style={{ whiteSpace: "nowrap" }}>
-        //                     <div>Lat: {geolocation.latitude}</div>
-        //                     <div>Long: {geolocation.longitude}</div>
-        //                 </div>
-        //             </Tooltip>
-        //         );
-        //     },
-        // },
-        // {
-        //     title: "Maps",
-        //     dataIndex: ["geolocation", "maps_link"],
-        //     width: 80,
-        //     ellipsis: {
-        //         showTitle: false,
-        //     },
-        //     render: (maps_link) =>
-        //         maps_link ? (
-        //             <div className="flex items-center justify-center">
-        //                 <Tooltip
-        //                     placement="topLeft"
-        //                     title={maps_link}
-        //                     styles={{ body: { fontSize: "12px" } }}
-        //                 >
-        //                     <Button
-        //                         style={{
-        //                             width: 32,
-        //                             height: 32,
-        //                             padding: 0,
-        //                         }}
-        //                         type="default"
-        //                         size="small"
-        //                         onClick={(e) => {
-        //                             e.stopPropagation();
-        //                             window.open(maps_link, "_blank");
-        //                         }}
-        //                         tabIndex={0}
-        //                     >
-        //                         <MapIcon size={17} />
-        //                     </Button>
-        //                 </Tooltip>
-        //             </div>
-        //         ) : (
-        //             <div className="flex items-center justify-center">
-        //                 <span>-</span>
-        //             </div>
-        //         ),
-        // },
-        // {
-        //     title: "Street View",
-        //     dataIndex: ["geolocation", "street_view_link"],
-        //     width: 110,
-        //     ellipsis: {
-        //         showTitle: false,
-        //     },
-        //     render: (street_view_link) =>
-        //         street_view_link ? (
-        //             <div className="flex items-center justify-center">
-        //                 <Tooltip
-        //                     placement="topLeft"
-        //                     title={street_view_link}
-        //                     styles={{ body: { fontSize: "12px" } }}
-        //                 >
-        //                     <Button
-        //                         style={{
-        //                             width: 32,
-        //                             height: 32,
-        //                             padding: 0,
-        //                         }}
-        //                         type="default"
-        //                         size="small"
-        //                         onClick={(e) => {
-        //                             e.stopPropagation();
-        //                             window.open(street_view_link, "_blank");
-        //                         }}
-        //                         tabIndex={0}
-        //                     >
-        //                         <MapPinned size={17} />
-        //                     </Button>
-        //                 </Tooltip>
-        //             </div>
-        //         ) : (
-        //             <div className="flex items-center justify-center">
-        //                 <span>-</span>
-        //             </div>
-        //         ),
-        // },
+        {
+            title: "Cidade",
+            dataIndex: "city",
+            width: 120,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (city) => (
+                <Tooltip
+                    placement="topLeft"
+                    title={city}
+                    styles={{ body: { fontSize: "12px" } }}
+                >
+                    {city || "-"}
+                </Tooltip>
+            ),
+        },
+        {
+            title: "UF",
+            dataIndex: "state",
+            width: 60,
+        },
+        {
+            title: "Coordenadas",
+            dataIndex: "geolocation",
+            width: 180,
+            render: (geolocation) => {
+                if (
+                    !geolocation ||
+                    !geolocation.latitude ||
+                    !geolocation.longitude
+                ) {
+                    return "-";
+                }
+                const coordenadas = `Lat: ${geolocation.latitude}\nLong: ${geolocation.longitude}`;
+                return (
+                    <Tooltip
+                        placement="topLeft"
+                        title={coordenadas}
+                        styles={{ body: { fontSize: "12px" } }}
+                    >
+                        <div style={{ whiteSpace: "nowrap" }}>
+                            <div>Lat: {geolocation.latitude}</div>
+                            <div>Long: {geolocation.longitude}</div>
+                        </div>
+                    </Tooltip>
+                );
+            },
+        },
+        {
+            title: "Maps",
+            dataIndex: ["geolocation", "maps_link"],
+            width: 80,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (maps_link) =>
+                maps_link ? (
+                    <div className="flex items-center justify-center">
+                        <Tooltip
+                            placement="topLeft"
+                            title={maps_link}
+                            styles={{ body: { fontSize: "12px" } }}
+                        >
+                            <Button
+                                style={{
+                                    width: 32,
+                                    height: 32,
+                                    padding: 0,
+                                }}
+                                type="default"
+                                size="small"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(maps_link, "_blank");
+                                }}
+                                tabIndex={0}
+                            >
+                                <MapIcon size={17} />
+                            </Button>
+                        </Tooltip>
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-center">
+                        <span>-</span>
+                    </div>
+                ),
+        },
+        {
+            title: "Street View",
+            dataIndex: ["geolocation", "street_view_link"],
+            width: 110,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (street_view_link) =>
+                street_view_link ? (
+                    <div className="flex items-center justify-center">
+                        <Tooltip
+                            placement="topLeft"
+                            title={street_view_link}
+                            styles={{ body: { fontSize: "12px" } }}
+                        >
+                            <Button
+                                style={{
+                                    width: 32,
+                                    height: 32,
+                                    padding: 0,
+                                }}
+                                type="default"
+                                size="small"
+                                onClick={(e) => {
+                                    e.stopPropagation();
+                                    window.open(street_view_link, "_blank");
+                                }}
+                                tabIndex={0}
+                            >
+                                <MapPinned size={17} />
+                            </Button>
+                        </Tooltip>
+                    </div>
+                ) : (
+                    <div className="flex items-center justify-center">
+                        <span>-</span>
+                    </div>
+                ),
+        },
         {
             title: "URL",
             dataIndex: "url",
@@ -1075,28 +1076,28 @@ export const useAllTableColumns = ({
             width: 120,
             render: (browser) => formatBrowserDisplay(browser),
         },
-        // {
-        //     title: "TimeZone",
-        //     dataIndex: ["fingerprint", "timezone"],
-        //     width: 210,
-        //     ellipsis: {
-        //         showTitle: false,
-        //     },
-        //     render: (timezone, record) => {
-        //         const timezoneName = record?.fingerprint?.timezone_name;
-        //         const value = [timezone, timezoneName].filter(Boolean).join(" - ");
+        {
+            title: "TimeZone",
+            dataIndex: ["fingerprint", "timezone"],
+            width: 210,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (timezone, record) => {
+                const timezoneName = record?.fingerprint?.timezone_name;
+                const value = [timezone, timezoneName].filter(Boolean).join(" - ");
 
-        //         return (
-        //             <Tooltip
-        //                 placement="topLeft"
-        //                 title={value || "-"}
-        //                 styles={{ body: { fontSize: "12px" } }}
-        //             >
-        //                 {value || "-"}
-        //             </Tooltip>
-        //         );
-        //     },
-        // },
+                return (
+                    <Tooltip
+                        placement="topLeft"
+                        title={value || "-"}
+                        styles={{ body: { fontSize: "12px" } }}
+                    >
+                        {value || "-"}
+                    </Tooltip>
+                );
+            },
+        },
         {
             title: "Resolução",
             dataIndex: ["fingerprint", "resolution"],
@@ -1135,8 +1136,6 @@ export const useAllTableColumns = ({
             width: 110,
             render: (service) => service || "-",
         },
-
-
 
     ];
 
