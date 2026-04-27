@@ -101,8 +101,9 @@ export function useContactsController() {
   };
 
   const contacts =
-    contactsQuery?.messages?.filter((contact) => contact.company === "TIM") ||
-    [];
+    contactsQuery?.messages?.filter(
+      (contact) => contact.company === "C6BANK",
+    ) || [];
 
   return {
     changeContactStatus,

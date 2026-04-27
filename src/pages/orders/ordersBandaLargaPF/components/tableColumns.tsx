@@ -17,6 +17,7 @@ import { formatPhoneNumber } from "@/utils/formatPhoneNumber";
 import { OrderC6Bank } from "@/interfaces/orders";
 import { useNavigate } from "react-router-dom";
 import { getFiltersFromURL } from "../controllers/filterController";
+import { formatCNPJ } from "@/utils/formatCNPJ";
 export const useAllTableColumns = ({
     setSelectedAvatar,
     setIsModalAvatarOpen,
@@ -194,6 +195,42 @@ export const useAllTableColumns = ({
             dataIndex: "number_attempts_second_call",
             width: 110,
             render: (number_attempts_second_call) => number_attempts_second_call || "-",
+        },
+        {
+            title: "CNPJ",
+            dataIndex: "cnpj",
+            width: 120,
+            render: (cnpj) => (cnpj ? formatCNPJ(cnpj) : "-"),
+            filters: [
+                {
+                    text: "Preenchido",
+                    value: "preenchido",
+                },
+                {
+                    text: "Vazio",
+                    value: "vazio",
+                },
+            ],
+
+            onFilter: (value, record) => {
+                if (value === "preenchido") {
+                    return (
+                        record.cnpj !== null && record.cnpj !== undefined && record.cnpj !== ""
+                    );
+                }
+                if (value === "vazio") {
+                    return (
+                        record.cnpj === null || record.cnpj === undefined || record.cnpj === ""
+                    );
+                }
+                return true;
+            },
+        },
+        {
+            title: "Razão Social",
+            dataIndex: "company_legal_name",
+            width: 100,
+
         },
         {
             title: "CPF",
