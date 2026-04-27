@@ -1,0 +1,226 @@
+@import "tailwindcss";
+
+:root {
+  --radius: 0.625rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.646 0.222 41.116);
+  --chart-2: oklch(0.6 0.118 184.704);
+  --chart-3: oklch(0.398 0.07 227.392);
+  --chart-4: oklch(0.828 0.189 84.429);
+  --chart-5: oklch(0.769 0.188 70.08);
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.488 0.243 264.376);
+  --chart-2: oklch(0.696 0.17 162.48);
+  --chart-3: oklch(0.769 0.188 70.08);
+  --chart-4: oklch(0.627 0.265 303.9);
+  --chart-5: oklch(0.645 0.246 16.439);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  font-size: 100%; /* Define o tamanho da fonte base */
+  line-height: 1.5; /* Define o espaçamento entre linhas */
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+ul,
+ol,
+li,
+figure,
+blockquote {
+  margin: 0;
+  padding: 0;
+  font-weight: normal;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+/* img,
+video {
+  max-width: 100%;
+  height: auto;
+} */
+/* .custom-upload-list .ant-upload-list-item-name {
+  color: #242424;
+} */
+button,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  border: none;
+  outline: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+}
+
+@layer utilities {
+  .scrollbar-thin {
+    scrollbar-width: thin;
+  }
+
+  .scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    border-radius: 6px;
+  }
+}
+
+/* CHAT UBERICH */
+
+@keyframes fireGlow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(255, 69, 0, 0.8),
+      0 0 20px rgba(255, 140, 0, 0.6);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(255, 69, 0, 1),
+      0 0 30px rgba(255, 140, 0, 0.8);
+  }
+}
+
+/* Classe utilitária para o efeito de brilho */
+.fire-glow {
+  animation: fireGlow 1.5s infinite ease-in-out;
+}
+
+@keyframes divGlow {
+  0%,
+  100% {
+    text-shadow:
+      0 0 10px rgba(255, 94, 0, 0.8),
+      0 0 20px rgba(255, 123, 0, 0.6);
+  }
+  50% {
+    text-shadow:
+      0 0 20px rgba(76, 121, 50, 0.8),
+      0 0 20px rgb(125, 158, 47);
+  }
+}
+
+/* Classe utilitária para o efeito de brilho */
+.div-glow {
+  animation: divGlow 1.5s infinite ease-in-out;
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  input,
+  textarea,
+  button:not([role="combobox"]) {
+    border-color: var(--border, currentColor);
+  }
+}
+
+/* Scrollbar customization - excluding select dropdowns */
+*:not([role="listbox"]):not(
+    [data-radix-select-content]
+  )::-webkit-scrollbar-track {
+  background: none;
+}
+
+*:not([role="listbox"]):not([data-radix-select-content])::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+*:not([role="listbox"]):not(
+    [data-radix-select-content]
+  )::-webkit-scrollbar-thumb {
+  background: #a3a3a3;
+  border-radius: 8px;
+}
+
+.dark
+  *:not([role="listbox"]):not(
+    [data-radix-select-content]
+  )::-webkit-scrollbar-thumb {
+  background: #7c8086; /* Nova cor para o modo dark */
+}
+
+table tbody tr td p {
+  font-size: 12px;
+  color: #808080;
+}
