@@ -227,19 +227,14 @@ export function ClientPFInfoModal({
 
 
                 </p>
-                <p>
-                  <strong>Operadora:</strong> {c?.operator || "-"}
-                </p>
+
               </div>
 
               <div className="grid grid-cols-2 gap-2 text-[14px] w-full text-neutral-700">
                 <p>
                   <strong>Portado:</strong> {c?.portability || "-"}
                 </p>
-                <p>
-                  <strong>Data Portabilidade:</strong>{" "}
-                  {c?.portability_date || "-"}
-                </p>
+
               </div>
 
               {/* Whatsapp */}

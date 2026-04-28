@@ -426,23 +426,7 @@ export function useClientsController() {
         return true;
       },
     },
-    {
-      title: "Operadora",
-      dataIndex: "operator",
-      width: 120,
-      ellipsis: {
-        showTitle: false,
-      },
-      render: (_, record) => (
-        <Tooltip
-          placement="topLeft"
-          title={record.operator}
-          styles={{ body: { fontSize: "12px" } }}
-        >
-          {record.operator || "-"}
-        </Tooltip>
-      ),
-    },
+
     {
       title: "Portado",
       dataIndex: "portability",
@@ -450,15 +434,6 @@ export function useClientsController() {
       render: (
         portability) =>
         portability || "-",
-    },
-    {
-      title: "Data da Portabilidade",
-      dataIndex: "portability_date",
-      width: 160,
-      render: (_, record) =>
-        record.portability_date
-          ? (record.portability_date)
-          : "-",
     },
 
 

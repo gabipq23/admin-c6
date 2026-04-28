@@ -308,22 +308,12 @@ export function OrderDisplay({
                           : "Não"
                     }
                   />
-                  <DisplayGenerator
-                    title="Operadora:"
-                    value={localData.operator}
-                  />
+
                   <DisplayGenerator
                     title="Portado:"
                     value={localData.portability}
                   />
-                  <DisplayGenerator
-                    title="Data da Portabilidade:"
-                    value={
-                      localData.portability_date
-                        ? (localData.portability_date)
-                        : "-"
-                    }
-                  />
+
 
                   {/* <DisplayGenerator
                     title="Status:"

@@ -512,13 +512,7 @@ export const useAllTableColumns = ({
                     : "-",
         },
 
-        {
-            title: "MEI",
-            dataIndex: "is_mei",
-            width: 70,
-            render: (is_mei) =>
-                is_mei ? "Sim" : is_mei === undefined || is_mei === null ? "-" : "Não",
-        },
+
 
         {
             title: "MEI",
@@ -631,23 +625,7 @@ export const useAllTableColumns = ({
                 return true;
             },
         },
-        {
-            title: "Operadora",
-            dataIndex: "operator",
-            width: 120,
-            ellipsis: {
-                showTitle: false,
-            },
-            render: (_, record) => (
-                <Tooltip
-                    placement="topLeft"
-                    title={record.operator}
-                    styles={{ body: { fontSize: "12px" } }}
-                >
-                    {record.operator || "-"}
-                </Tooltip>
-            ),
-        },
+
         {
             title: "Portado",
             dataIndex: "portability",
@@ -656,69 +634,61 @@ export const useAllTableColumns = ({
                 portability) =>
                 portability || "-",
         },
+
         {
-            title: "Data da Portabilidade",
-            dataIndex: "portability_date",
-            width: 160,
-            render: (_, record) =>
-                record.portability_date
-                    ? (record.portability_date)
-                    : "-",
+            title: "Whatsapp",
+            dataIndex: ["whatsapp", "is_comercial"],
+            width: 90,
+            render: (is_comercial, record) => {
+                const whatsappData = record?.whatsapp;
+
+                // Cenário 1: Telefone invalido
+                const hasInvalidPhoneError =
+                    (whatsappData as { erro?: string } | null)?.erro === "Telefone inválido";
+
+                if (hasInvalidPhoneError || whatsappData?.sucesso === false) {
+                    return <div className="flex items-center justify-center">Não</div>;
+                }
+
+                // Cenário 2: existe_no_whatsapp é false
+                if (whatsappData?.existe_no_whatsapp === false) {
+                    return <div className="flex items-center justify-center">Não</div>;
+                }
+
+                // Casos com wpp valido
+                return (
+                    <div className="flex items-center justify-center">
+                        {is_comercial === true ? (
+                            <Tooltip
+                                title="Business"
+                                placement="top"
+                                styles={{ body: { fontSize: "12px" } }}
+                            >
+                                <img
+                                    src="/assets/whatsapp-business.png"
+                                    alt="Business"
+                                    className="h-6 w-6"
+                                />
+                            </Tooltip>
+                        ) : is_comercial === false ? (
+                            <Tooltip
+                                title="Messenger"
+                                placement="top"
+                                styles={{ body: { fontSize: "12px" } }}
+                            >
+                                <img
+                                    src="/assets/whatsapp-messenger.png"
+                                    alt="Messenger"
+                                    className="h-6 w-6"
+                                />
+                            </Tooltip>
+                        ) : (
+                            "-"
+                        )}
+                    </div>
+                );
+            },
         },
-        // {
-        //     title: "Whatsapp",
-        //     dataIndex: ["whatsapp", "is_comercial"],
-        //     width: 90,
-        //     render: (is_comercial, record) => {
-        //         const whatsappData = record?.whatsapp;
-
-        //         // Cenário 1: Telefone invalido
-        //         const hasInvalidPhoneError =
-        //             (whatsappData as { erro?: string } | null)?.erro === "Telefone inválido";
-
-        //         if (hasInvalidPhoneError || whatsappData?.sucesso === false) {
-        //             return <div className="flex items-center justify-center">Não</div>;
-        //         }
-
-        //         // Cenário 2: existe_no_whatsapp é false
-        //         if (whatsappData?.existe_no_whatsapp === false) {
-        //             return <div className="flex items-center justify-center">Não</div>;
-        //         }
-
-        //         // Casos com wpp valido
-        //         return (
-        //             <div className="flex items-center justify-center">
-        //                 {is_comercial === true ? (
-        //                     <Tooltip
-        //                         title="Business"
-        //                         placement="top"
-        //                         styles={{ body: { fontSize: "12px" } }}
-        //                     >
-        //                         <img
-        //                             src="/assets/whatsapp-business.png"
-        //                             alt="Business"
-        //                             className="h-6 w-6"
-        //                         />
-        //                     </Tooltip>
-        //                 ) : is_comercial === false ? (
-        //                     <Tooltip
-        //                         title="Messenger"
-        //                         placement="top"
-        //                         styles={{ body: { fontSize: "12px" } }}
-        //                     >
-        //                         <img
-        //                             src="/assets/whatsapp-messenger.png"
-        //                             alt="Messenger"
-        //                             className="h-6 w-6"
-        //                         />
-        //                     </Tooltip>
-        //                 ) : (
-        //                     "-"
-        //                 )}
-        //             </div>
-        //         );
-        //     },
-        // },
 
 
         {

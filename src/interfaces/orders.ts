@@ -60,7 +60,11 @@ export interface OrderC6Bank {
   portability: string | null;
   portability_date?: string | null;
   is_email_valid?: boolean | null;
-  whatsapp?: { avatar: string } | null;
+  whatsapp?: {
+    avatar: string;
+    sucesso?: boolean | null;
+    existe_no_whatsapp?: boolean | null;
+  } | null;
   existe_no_whatsapp?: boolean | null;
   fingerprint?: {
     os: { name: string; version: string };
