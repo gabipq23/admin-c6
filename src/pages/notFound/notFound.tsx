@@ -21,7 +21,7 @@ export default function NotFound() {
       <div className="flex h-[220px] w-[300px] bg-[#c5c5c5] p-8 flex-col rounded shadow-2xl items-center justify-center  text-[#242424] gap-4">
         <img
           className="h-16 w-16"
-          src="/assets/tim.svg"
+          src="/assets/c6-logo.png"
         // style={{
         //   filter:
         //     "invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(100%) contrast(100%)",
