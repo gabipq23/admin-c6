@@ -20,7 +20,7 @@ export default function NotFound() {
     <div className="h-[601px] bg-red-white flex justify-center items-center">
       <div className="flex h-[220px] w-[300px] bg-[#c5c5c5] p-8 flex-col rounded shadow-2xl items-center justify-center  text-[#242424] gap-4">
         <img
-          className="h-16 w-16"
+          className=" w-28"
           src="/assets/c6-logo.png"
         // style={{
         //   filter:
