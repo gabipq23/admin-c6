@@ -18,7 +18,7 @@ export function Login() {
   const mutation = useMutation<void, Error, ILoginForm>({
     mutationFn: (data: ILoginForm) => login(data),
     onSuccess: () => {
-      navigate("/admin/pedidos");
+      navigate("/admin/leads");
     },
     onError: (error: any) => {
       const errorMessage =

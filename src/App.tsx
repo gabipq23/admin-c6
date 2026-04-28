@@ -53,7 +53,7 @@ export default function App() {
           path="/admin"
           element={
             user ? (
-              <Navigate to="/admin/pedidos" replace />
+              <Navigate to="/admin/leads" replace />
             ) : (
               <Login />
             )
@@ -72,7 +72,7 @@ export default function App() {
             <Route path="/admin/pj-checker" element={<PJChecker />} />
             <Route path="/admin/base2b-socio" element={<Base2bSocio />} />
             <Route path="/admin/base2b-empresa" element={<Base2bEmpresa />} />
-            <Route path="/admin/pedidos" element={<Orders />} />
+            <Route path="/admin/leads" element={<Orders />} />
 
             <Route path="/admin/contatos" element={<Contacts />} />
             <Route path="/admin/clientes-pj" element={<Clients />} />

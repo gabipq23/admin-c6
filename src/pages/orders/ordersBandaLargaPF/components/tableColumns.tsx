@@ -104,9 +104,9 @@ export const useAllTableColumns = ({
             ),
         },
         {
-            title: "ID do Pedido",
+            title: "ID do Lead",
             dataIndex: "order_number",
-            width: 110,
+            width: 130,
             render: (order_number, record) =>
                 order_number ? order_number : record.id || "-",
         },

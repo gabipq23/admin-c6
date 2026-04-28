@@ -75,7 +75,7 @@ export default function Orders() {
           <div className="flex justify-between mt-6 mb-4 items-center">
             <div>
               <div className="flex gap-8 justify-between pb-2">
-                <h1 className="text-[22px] pl-16 ">Pedidos</h1>
+                <h1 className="text-[22px] pl-16 ">Leads</h1>
               </div>
               {/* Filtro */}
               <FiltroOrdersPFForm
@@ -144,7 +144,7 @@ export default function Orders() {
                     params.set("per_page", pageSize.toString());
                     navigate(`?${params.toString()}`);
                   },
-                  showTotal: (total) => `Total de ${total} pedidos`,
+                  showTotal: (total) => `Total de ${total} leads`,
                 }}
               />
             </div>

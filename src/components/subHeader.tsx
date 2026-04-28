@@ -7,7 +7,7 @@ import { Button, Dropdown } from "antd";
 
 export default function SubHeader() {
   const navigate = useNavigate();
-  const [selectedLink, setSelectedLink] = useState<string>("pedidos");
+  const [selectedLink, setSelectedLink] = useState<string>("leads");
   const { logout } = useAuthContext();
   // const user = JSON.parse(localStorage.getItem("vivoGold@user") || "null");
   // const userID = user?.id;
@@ -176,15 +176,15 @@ export default function SubHeader() {
 
   const ordersMenuItems: MenuProps["items"] = [
     {
-      key: "pedidos",
+      key: "leads",
       label: (
         <span className="text-[#242424]"
           onClick={() => {
-            setSelectedLink("pedidos");
-            navigate(`/admin/pedidos`);
+            setSelectedLink("leads");
+            navigate(`/admin/leads`);
           }}
         >
-          Pedidos
+          Leads
         </span>
       ),
     },
@@ -260,12 +260,12 @@ export default function SubHeader() {
             <Dropdown menu={{ items: ordersMenuItems }} placement="bottom">
               <a
                 onClick={(e) => e.preventDefault()}
-                className={`text-[14px] cursor-pointer text-[#242424] hover:text-[#4d4d4d] ${selectedLink === "pedidos"
+                className={`text-[14px] cursor-pointer text-[#242424] hover:text-[#4d4d4d] ${selectedLink === "leads"
                   ? "font-bold text-[#2a4bdf]"
                   : ""
                   }`}
               >
-                Pedidos
+                Leads
               </a>
             </Dropdown>
 
@@ -281,16 +281,16 @@ export default function SubHeader() {
               </a>
             </Dropdown>
             {/* 
-            <Dropdown menu={{ items: prospectsMenuItems }} placement="bottom">
+            <Dropdown menu={{ items: leadsMenuItems }} placement="bottom">
               <a
                 onClick={(e) => e.preventDefault()}
                 className={`text-[14px] cursor-pointer text-neutral-300 hover:text-neutral-100 ${
-                  selectedLink === "prospects-pj"
+                  selectedLink === "leads-pj"
                     ? "font-bold text-neutral-100"
                     : ""
                 }`}
               >
-                Prospects
+                Leads
               </a>
             </Dropdown> */}
 
@@ -336,16 +336,16 @@ export default function SubHeader() {
               </a>
             </Dropdown>
 
-            {/* <Dropdown menu={{ items: prospectsMenuItems }} placement="bottom">
+            {/* <Dropdown menu={{ items: leadsMenuItems }} placement="bottom">
               <a
                 onClick={(e) => e.preventDefault()}
                 className={`text-[14px] cursor-pointer text-neutral-300 hover:text-neutral-100 ${
-                  selectedLink === "prospects-pj"
+                  selectedLink === "leads-pj"
                     ? "font-bold text-neutral-100"
                     : ""
                 }`}
               >
-                Prospects
+                Leads
               </a>
             </Dropdown> */}
 

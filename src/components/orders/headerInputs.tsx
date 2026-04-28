@@ -20,7 +20,7 @@ export default function HeaderInputs({
     <>
       <div className="flex  flex-col md:flex-row lg:flex-row gap-4 mg:items-start lg:items-start justify-between">
         <span style={{ color: "#252525" }}>
-          Pedido Nº {localData.order_number || localData.id}
+          Lead Nº {localData.order_number || localData.id}
         </span>
         <div className="flex flex-col  flex-wrap items-center gap-4 ">
           <ConfigProvider
@@ -100,7 +100,7 @@ export default function HeaderInputs({
 
             <div className="flex items-start justify-start gap-4 self-start mr-8">
               <div className="flex items-center gap-2 ">
-                <span className="text-[14px] font-semibold">Pedido:</span>
+                <span className="text-[14px] font-semibold">Lead:</span>
                 <Select
                   size="small"
                   style={{ width: 110 }}

@@ -9,7 +9,7 @@ export default function NotFound() {
   const { user } = useAuthContext();
 
   const redirectPath = user
-    ? "/admin/pedidos"
+    ? "/admin/leads"
     : "/admin";
 
   const buttonLabel = user
