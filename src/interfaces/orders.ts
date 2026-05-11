@@ -30,6 +30,7 @@ export interface OrderC6Bank {
   product_credit_card?: boolean | null;
   product_loan?: boolean | null;
   loan_amount?: number | null;
+  products_of_interest?: string[];
 
   app_click?: boolean | null;
   app_click_at?: string | null;
