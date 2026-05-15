@@ -24,7 +24,33 @@ const getBase64FromImageUrl = (url: string): Promise<string> => {
     img.src = url;
   });
 };
+const landingPageLabel = (value: string | null | undefined): string => {
+  const map: Record<string, string> = {
+    "conta-pj": "Conta PJ",
+    "cartao-pj-c6": "Cartão PJ",
+    "maquininha-c6-empresas": "Maquininha",
+  };
+  return value ? (map[value] ?? value) : "-";
+};
 
+const productsOfInterestLabel = (value: string | string[] | null | undefined): string => {
+  const labelMap: Record<string, string> = {
+    "conta-pj": "Conta PJ",
+    "capital-giro": "Capital de Giro",
+    "maquininha": "Maquininha",
+    "investimentos": "Investimentos",
+    "cartao-credito": "Cartão de Crédito",
+    "reducao-dividas": "Redução de Dívidas",
+    "outro": "Outro",
+  };
+
+  if (!value) return "-";
+
+  const arr = Array.isArray(value) ? value : [value];
+  if (!arr.length) return "-";
+
+  return arr.map((p) => labelMap[p] ?? p).join(", ");
+};
 const boolLabel = (value: boolean | null | undefined): string =>
   value === true ? "Sim" : value === null || value === undefined ? "-" : "Não";
 
@@ -45,10 +71,7 @@ const dateLabel = (value: string | null | undefined): string => {
 
   return value;
 };
-const currencyLabel = (value: number | null | undefined): string =>
-  value == null
-    ? "-"
-    : value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+
 
 export const generatePDF = async (order: OrderC6Bank | undefined) => {
   if (!order) return;
@@ -109,11 +132,8 @@ export const generatePDF = async (order: OrderC6Bank | undefined) => {
       {
         type: "circle",
         ul: [
-          `Abertura de Conta: ${boolLabel(order.product_account_opening)}`,
-          `Maquininha: ${boolLabel(order.product_card_machine)}`,
-          `Cartão de Crédito: ${boolLabel(order.product_credit_card)}`,
-          `Empréstimo: ${boolLabel(order.product_loan)}`,
-          `Valor do Empréstimo: ${currencyLabel(order.loan_amount)}`,
+          `Produto Principal: ${landingPageLabel(order.landing_page)}`,
+          `Outros Produtos: ${productsOfInterestLabel(order.products_of_interest)}`,
         ],
         style: "content",
       },

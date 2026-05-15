@@ -75,7 +75,8 @@ export const handleExportXLSX = (
     "product_credit_card",
     "product_loan",
     "loan_amount",
-
+    "landing_page",
+    "products_of_interest",
     // App C6
     "app_click",
     "app_click_at",
@@ -141,7 +142,8 @@ export const handleExportXLSX = (
     product_credit_card: "Cartao de Credito",
     product_loan: "Emprestimo",
     loan_amount: "Valor do Emprestimo",
-
+    landing_page: "Produto Principal",
+    products_of_interest: "Outros Produtos",
     app_click: "Click App",
     app_click_at: "Data/Hora Click App",
     app_register: "Cadastro App",
@@ -192,28 +194,44 @@ export const handleExportXLSX = (
         }
       }
     });
+    const landingPageMap: Record<string, string> = {
+      "conta-pj": "Conta PJ",
+      "cartao-pj-c6": "Cartão PJ",
+      "maquininha-c6-empresas": "Maquininha",
+    };
+    linha[colNames["landing_page"]] = pedido.landing_page
+      ? (landingPageMap[pedido.landing_page] ?? pedido.landing_page)
+      : "-";
 
+    // Outros produtos formatados
+    const productsMap: Record<string, string> = {
+      "conta-pj": "Conta PJ",
+      "capital-giro": "Capital de Giro",
+      "maquininha": "Maquininha",
+      "investimentos": "Investimentos",
+      "cartao-credito": "Cartão de Crédito",
+      "reducao-dividas": "Redução de Dívidas",
+      "outro": "Outro",
+    };
+    const productsArr = Array.isArray(pedido.products_of_interest)
+      ? pedido.products_of_interest
+      : pedido.products_of_interest
+        ? [pedido.products_of_interest]
+        : [];
+    linha[colNames["products_of_interest"]] = productsArr.length
+      ? productsArr.map((p) => productsMap[p] ?? p).join(", ")
+      : "-";
     // Booleanos formatados
     linha[colNames["phone_valid"]] = toYesNo(pedido.phone_valid);
     linha[colNames["is_email_valid"]] = toYesNo(pedido.is_email_valid);
     linha[colNames["is_socio"]] = toYesNo(pedido.is_socio);
     linha[colNames["is_mei"]] = toYesNo(pedido.is_mei);
     linha[colNames["existe_no_whatsapp"]] = toYesNo(pedido.existe_no_whatsapp);
-    linha[colNames["product_account_opening"]] = toYesNo(pedido.product_account_opening);
-    linha[colNames["product_card_machine"]] = toYesNo(pedido.product_card_machine);
-    linha[colNames["product_credit_card"]] = toYesNo(pedido.product_credit_card);
-    linha[colNames["product_loan"]] = toYesNo(pedido.product_loan);
+
     linha[colNames["app_click"]] = toYesNo(pedido.app_click);
     linha[colNames["app_register"]] = toYesNo(pedido.app_register);
 
-    // Valor do empréstimo formatado como moeda
-    linha[colNames["loan_amount"]] =
-      pedido.loan_amount == null
-        ? "-"
-        : pedido.loan_amount.toLocaleString("pt-BR", {
-          style: "currency",
-          currency: "BRL",
-        });
+
 
     // Empresas formatadas
     linha[colNames["company_partners"]] = pedido.company_partners
