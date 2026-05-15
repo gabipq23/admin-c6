@@ -41,7 +41,7 @@ export function OrderEdit({
       <div className="flex flex-col  w-full gap-2">
 
         {/* Produtos de Interesse & App C6 */}
-        <div className="flex flex-col bg-neutral-100 mb-3 rounded-[4px] p-3 w-full">
+        {/* <div className="flex flex-col bg-neutral-100 mb-3 rounded-[4px] p-3 w-full">
           <div className="flex items-center mb-1">
             <h2 className="text-[14px] text-[#666666]">
               Produtos de Interesse
@@ -49,11 +49,11 @@ export function OrderEdit({
           </div>
           <div className="flex flex-col text-neutral-800 rounded-lg p-2">
 
-            {/* Produtos */}
+       
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-              {/* Coluna 1 */}
+         
               <div className="flex flex-col gap-1">
-                {/* Abertura de Conta */}
+               
                 <div className="flex h-9 gap-4 text-[14px] w-full text-neutral-700">
                   <div className="flex">
                     <p><strong>Abertura de Conta:</strong></p>
@@ -67,7 +67,7 @@ export function OrderEdit({
                     </Form.Item>
                   </div>
                 </div>
-                {/* Cartão de Crédito */}
+               
                 <div className="flex h-9 gap-4 text-[14px] w-full text-neutral-700">
                   <div className="flex">
                     <p><strong>Cartão de Crédito:</strong></p>
@@ -81,7 +81,7 @@ export function OrderEdit({
                     </Form.Item>
                   </div>
                 </div>
-                {/* Maquininha */}
+               
                 <div className="flex h-9 gap-4 text-[14px] w-full text-neutral-700">
                   <div className="flex">
                     <p><strong>Maquininha:</strong></p>
@@ -97,11 +97,11 @@ export function OrderEdit({
                 </div>
               </div>
 
-              {/* Coluna 2 */}
+             
               <div className="flex flex-col gap-1">
 
 
-                {/* Empréstimo */}
+              
                 <div className="flex h-9 gap-4 text-[14px] w-full text-neutral-700">
                   <div className="flex">
                     <p><strong>Empréstimo:</strong></p>
@@ -126,7 +126,7 @@ export function OrderEdit({
             </div>
 
           </div>
-        </div>
+        </div> */}
         {/* Informações do Cliente */}
         <div className="flex flex-col bg-neutral-100 mb-3 rounded-[4px] p-3  w-full">
           <div className="flex items-center mb-1">

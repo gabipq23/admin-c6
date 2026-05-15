@@ -231,8 +231,19 @@ export const useAllTableColumns = ({
         {
             title: "Razão Social",
             dataIndex: "company_legal_name",
-            width: 120,
-            render: (company_legal_name) => company_legal_name || "-",
+            width: 160,
+            ellipsis: {
+                showTitle: false,
+            },
+            render: (company_legal_name) => (
+                <Tooltip
+                    placement="topLeft"
+                    title={company_legal_name}
+                    styles={{ body: { fontSize: "12px" } }}
+                >
+                    {company_legal_name || "-"}
+                </Tooltip>
+            ),
         },
         {
             title: "CPF",
@@ -442,77 +453,67 @@ export const useAllTableColumns = ({
             },
             width: 220,
         },
+
+        // {
+        //     title: "Data/Hora Click",
+        //     dataIndex: "app_click_at",
+        //     width: 130,
+        //     render: (value) =>
+        //         value
+        //             ? new Date(value).toLocaleString("pt-BR")
+        //             : "-",
+        // },
+        // {
+        //     title: "Cadastro App",
+        //     dataIndex: "app_register",
+        //     width: 120,
+        //     render: (value) =>
+        //         value ? "Sim" : value === undefined || value === null ? "-" : "Não",
+        // },
+        // {
+        //     title: "Data/Hora Cadastro",
+        //     dataIndex: "app_register_at",
+        //     width: 150,
+        //     render: (value) =>
+        //         value
+        //             ? new Date(value).toLocaleString("pt-BR")
+        //             : "-",
+        // },
         {
-            title: "Abertura de Conta",
-            dataIndex: "product_account_opening",
-            width: 140,
-            render: (value) =>
-                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
-        },
-        {
-            title: "Maquininha",
-            dataIndex: "product_card_machine",
-            width: 120,
-            render: (value) =>
-                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
-        },
-        {
-            title: "Cartão de Crédito",
-            dataIndex: "product_credit_card",
-            width: 140,
-            render: (value) =>
-                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
-        },
-        {
-            title: "Empréstimo",
-            dataIndex: "product_loan",
-            width: 120,
-            render: (value) =>
-                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
-        },
-        {
-            title: "R$ Empréstimo",
-            dataIndex: "loan_amount",
-            width: 120,
-            render: (value) =>
-                value == null
-                    ? "-"
-                    : value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }),
-        },
-        {
-            title: "Click App",
-            dataIndex: "app_click",
-            width: 120,
-            render: (value) =>
-                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
-        },
-        {
-            title: "Data/Hora Click",
-            dataIndex: "app_click_at",
-            width: 130,
-            render: (value) =>
-                value
-                    ? new Date(value).toLocaleString("pt-BR")
-                    : "-",
-        },
-        {
-            title: "Cadastro App",
-            dataIndex: "app_register",
-            width: 120,
-            render: (value) =>
-                value ? "Sim" : value === undefined || value === null ? "-" : "Não",
-        },
-        {
-            title: "Data/Hora Cadastro",
-            dataIndex: "app_register_at",
+            title: "Produto Principal",
+            dataIndex: "landing_page",
             width: 150,
-            render: (value) =>
-                value
-                    ? new Date(value).toLocaleString("pt-BR")
-                    : "-",
+            render: (landing_page) =>
+                landing_page === "conta-pj" ? "Conta PJ" : landing_page === "cartao-pj-c6" ? "Cartão PJ" : landing_page === "maquininha-c6-empresas" ? "Maquininha" : "-",
         },
+        {
+            title: "Outros Produtos",
+            dataIndex: "products_of_interest",
+            width: 170,
+            render: (products_of_interest: string | string[]) => {
+                const labelMap: Record<string, string> = {
+                    "conta-pj": "Conta PJ",
+                    "capital-giro": "Capital de Giro",
+                    "maquininha": "Maquininha",
+                    "investimentos": "Investimentos",
+                    "cartao-credito": "Cartão de Crédito",
+                    "reducao-dividas": "Redução de Dívidas",
+                    "outro": "Outro",
+                };
 
+                if (!products_of_interest) return "-";
 
+                const productsArray = Array.isArray(products_of_interest)
+                    ? products_of_interest
+                    : [products_of_interest];
+
+                if (!productsArray.length) return "-";
+
+                return productsArray
+                    .map((product) => labelMap[product] ?? product)
+                    .join(", ");
+            },
+        },
 
         {
             title: "MEI",

@@ -117,62 +117,49 @@ export function OrderDisplay({
 
       {/* Produtos de Interesse & App C6 */}
       <div className="flex gap-4 flex-col bg-neutral-100 mb-3 rounded-[4px] p-3 w-full">
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
           <h2 className="text-[14px] text-[#666666] font-medium">
             Produtos de Interesse</h2>
-        </div>
-        <div className="bg-white rounded-md p-2 ">
+        </div> */}
+        <div className="bg-white rounded-md p-2">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
             <DisplayGenerator
-              title="Abertura de Conta:"
+              title="Produto Principal:"
               value={
-                localData.product_account_opening
-                  ? "Sim"
-                  : localData.product_account_opening === undefined || localData.product_account_opening === null
-                    ? "-"
-                    : "Não"
+                localData.landing_page === "conta-pj"
+                  ? "Conta PJ"
+                  : localData.landing_page === "cartao-pj-c6"
+                    ? "Cartão PJ"
+                    : localData.landing_page === "maquininha-c6-empresas"
+                      ? "Maquininha"
+                      : "-"
               }
             />
             <DisplayGenerator
-              title="Maquininha:"
-              value={
-                localData.product_card_machine
-                  ? "Sim"
-                  : localData.product_card_machine === undefined || localData.product_card_machine === null
-                    ? "-"
-                    : "Não"
-              }
-            />
-            <DisplayGenerator
-              title="Cartão de Crédito:"
-              value={
-                localData.product_credit_card
-                  ? "Sim"
-                  : localData.product_credit_card === undefined || localData.product_credit_card === null
-                    ? "-"
-                    : "Não"
-              }
-            />
-            <DisplayGenerator
-              title="Empréstimo:"
-              value={
-                localData.product_loan
-                  ? "Sim"
-                  : localData.product_loan === undefined || localData.product_loan === null
-                    ? "-"
-                    : "Não"
-              }
-            />
-            <DisplayGenerator
-              title="Valor do Empréstimo:"
-              value={
-                localData.loan_amount == null
-                  ? "-"
-                  : localData.loan_amount.toLocaleString("pt-BR", {
-                    style: "currency",
-                    currency: "BRL",
-                  })
-              }
+              title="Outros Produtos:"
+              value={(() => {
+                const labelMap: Record<string, string> = {
+                  "conta-pj": "Conta PJ",
+                  "capital-giro": "Capital de Giro",
+                  "maquininha": "Maquininha",
+                  "investimentos": "Investimentos",
+                  "cartao-credito": "Cartão de Crédito",
+                  "reducao-dividas": "Redução de Dívidas",
+                  "outro": "Outro",
+                };
+
+                if (!localData.products_of_interest) return "-";
+
+                const productsArray = Array.isArray(localData.products_of_interest)
+                  ? localData.products_of_interest
+                  : [localData.products_of_interest];
+
+                if (!productsArray.length) return "-";
+
+                return productsArray
+                  .map((product) => labelMap[product] ?? product)
+                  .join(", ");
+              })()}
             />
           </div>
         </div>
