@@ -493,7 +493,7 @@ export const useAllTableColumns = ({
             render: (products_of_interest: string | string[]) => {
                 const labelMap: Record<string, string> = {
                     "conta-pj": "Conta PJ",
-                    "capital-giro": "Capital de Giro",
+                    "capital-giro-c6": "Capital de Giro",
                     "maquininha": "Maquininha",
                     "investimentos": "Investimentos",
                     "cartao-credito": "Cartão de Crédito",
