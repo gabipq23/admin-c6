@@ -140,7 +140,57 @@ export default function SubHeader() {
   ];
 
   const lpMenuItems: MenuProps["items"] = [
-
+    {
+      key: "maquininha",
+      label: (
+        <a
+          href="https://c6.business/maquininha-c6-empresas"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Maquininhas
+        </a>
+      ),
+    },
+    {
+      key: "conta-pj",
+      label: (
+        <a
+          href="https://c6.business/conta-pj "
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Conta PJ
+        </a>
+      ),
+    },
+    {
+      key: "cartao-pj",
+      label: (
+        <a
+          href="https://c6.business/cartao-pj-c6"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Cartão
+        </a>
+      ),
+    }, {
+      key: "capital-giro",
+      label: (
+        <a
+          href="https://c6.business/capital-giro-c6"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Capital de Giro
+        </a>
+      ),
+    },
+    {
+      key: "lp-investimentos",
+      label: <span>Investimentos</span>,
+    },
   ];
 
   // const managementMenuItems: MenuProps["items"] = [
